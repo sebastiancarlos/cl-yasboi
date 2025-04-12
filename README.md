@@ -300,9 +300,11 @@ Now, let me put on my SQL hat for a second and bring together these concepts ðŸ‘
 ASDF has two notable missing features:
 - It doesn't fetch external dependencies.
 - It doesn't verify the version of dependencies.
-  - This is particularly funny because the ASDF manual suggesting that it
-    supports a minimum version check by using the `:depends-on ((:version "foo"
-    "3.1.2"))` syntax. But this is not actually being checked! *Ayy lmao!*
+  - This is particularly funny because the ASDF manual
+    [suggests](https://asdf.common-lisp.dev/asdf.html#Version-identifier) that
+    it supports a minimum version check by using the `:depends-on ((:version
+    "foo" "3.1.2"))` syntax. But this is not actually being checked! *Ayy
+    lmao!*
 
 #### External Resources
 - [Common Lisp Cookbook â€“ Defining Systems](https://lispcookbook.github.io/cl-cookbook/systems.html)
