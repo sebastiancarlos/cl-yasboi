@@ -60,14 +60,12 @@ Introductory Common Lisp texts rarely delve into the details of setting up a
 project. This boilerplate aims to fill a bit of that gap, showcasing up-to-date
 practices and tools.
 
-## Usage
-
-### Running the Project From the Lisp REPL
+## Running the Project From the Lisp REPL
 As Common Lisp is a REPL-heavy language, I'll describe first how to run the
 project from the REPL.
 
 I assume you have a Common Lisp implementation installed (If not, go to your
-system's package manager and install one. I use Arch and SBCL, btw, so for me
+system's package manager and install one. I use Arch and SBCL, *btw*, so for me
 it's `pacman -S sbcl`).
 
 For any meaningful Common Lisp work, you need ASDF, which is Common Lisp's
@@ -115,7 +113,7 @@ alias sbcl="sbcl --load ~/.config/sbcl/init.lisp"
 Or, if you're a *true chad* who squeezes every ounce of performance out of your
 Unix system, you might prefer something like this:
 
-```
+```bash
 alias sbcl="rlwrap sbcl --noinform --userinit ${XDG_CONFIG_HOME}/sbcl/init.lisp"
 ```
 
@@ -144,7 +142,7 @@ default locations:
 ~/common-lisp/
 ```
 
-I instead, a *scholar of the arts*, prefers to tell ASDF where to find my
+I instead, a *scholar of the arts*, prefer to tell ASDF where to find my
 projects one by one. I do it by (you guessed it) *respecting XDG*. You can do
 so by creating a file such as the following (yes, the path *is* as long as a
 `systemd` config):
@@ -163,14 +161,14 @@ That's it! you're ready to run your Common Lisp REPL and start the project:
 # Start the REPL
 sbcl
 * (ql:quickload :cl-yasboi) ; Load the project (and fetch the dependencies, if
-                            ; needed.
+                            ; needed)
 * (cl-yasboi:ayy-lmao) ; run its main function, "ayy-lmao"
 ("ayy lmao")
 ```
 
-Success! 
+***Success!***
 
-### Running the Test Suite
+## Running the Test Suite
 Assuming you have SBCL and Quicklisp installed from the previous sections, just
 do the following:
 
@@ -185,9 +183,9 @@ T
 
 The tests are passing! *Yas boi!*
 
-### Generating Executables
+## Generating Executables
 The system definition file (`cl-yasboi.asd`) contains the configuration needed
-for generating an executabls.
+for generating an executable.
 
 Particularly, the entry point for the executable is defined to be the Lisp form
 `cl-yasboi:main`, which is a standard name for it.
@@ -213,7 +211,8 @@ Yet, it's about 30MB (it includes the whole SBCL runtime). But hey, an Electron
 
 Also, it's not a cross-platform binary, which is outside of the scope of this
 guide (*read: I don't know how to do it*). If you're interested, you can look
-into ECL (Embedded Common Lisp) which promises way smaller binaries.
+into [ECL](https://ecl.common-lisp.dev/) (Embeddable Common-Lisp) which
+promises way smaller binaries.
 
 ## Brief Description of Software Used
 
@@ -224,7 +223,8 @@ Despite common misconceptions, Common Lisp...
 - has several interesting language features not frequently mentioned (the
   object system, the condition system, etc).
 
-Note that Scheme and Clojure are the two other popular Lisps out there. Some
+Note that [Scheme](https://www.gnu.org/software/guile/) and
+[Clojure](https://clojure.org/) are the two other popular Lisps out there. Some
 people claim that they are "Lisp, the good parts" to some degree, as they aim
 to reduce complexity (more consistent interfaces, use of LISP-1 instead of
 LISP-2, better package management, etc). However, Common Lisp wins for me in
@@ -269,29 +269,29 @@ enough on introductory material, which can catch beginners off guard.
 ASDF is Common Lisp's "system definition facility." It's a *de facto* standard, as it comes included with every implementation.
 
 Now, let's clarify some terminology. Common Lisp uses the word "package" for something a bit strange to people with modern sensibilities.
-- A Common Lisp "package" is a collection of symbols. 
+- A Common Lisp **"package"** is a collection of symbols. 
   - Think "namespaces" in other languages.
   - Also, a "package" provides some amount of encapsulation, as it can
     explicitly "export" some symbols only, and "import" some symbols from
     dependent packages.
   - A package is not  necesarily tied to a single file. They are created with
     `defpackage` functions. (See later for more).
-- A "system" (as defined by ASDF) is a collection of source code and assets
+- A **"system"** (as defined by ASDF) is a collection of source code and assets
   belonging to a Common Lisp project. 
   - Think "modules" or "packages" in other languages.
   - It's defined on the `.asd` file(s).
-- A "project" is a collection of systems. 
+- A **"project"** is a collection of systems. 
   - For example, the `cl-yasboi` project contains the `cl-yasboi` system and
     the `cl-yasboi/test` system (a common arrangement).
 
 Now, let me put on my SQL hat for a second and bring together these concepts 👷
-- "project" is 1-to-many to "system". (but usually two or three systems per
-  project).
-- "system" is 1-to-many to "package".
-- "package" is many-to-many to "files" (that is, no restrictions on how many
-  files per package, or how many packages per file).
+- **"project"** is **1-to-many** to **"system"**. (but usually two or three
+  systems per project).
+- **"system"** is **1-to-many** to **"package"**.
+- **"package"** is **many-to-many** to **"files"** (that is, no restrictions on
+  how many files per package, or how many packages per file).
   - But notably, we're using the modern `package-inferred-system` ASDF system
-    definition, which asks of us that we keep a 1-to-1 relationship between
+    definition, which asks of us that we keep a **1-to-1** relationship between
     packages and files. This is a good practice, and closer to how other
     languages do it! Furthermore, it allows us to avoid duplicating the
     dependencies both at the system level and at the package level. Mind =
@@ -307,6 +307,8 @@ ASDF has two notable missing features:
 #### External Resources
 - [Common Lisp Cookbook – Defining Systems](https://lispcookbook.github.io/cl-cookbook/systems.html)
 - [Common Lisp Cookbook – Getting started](https://lispcookbook.github.io/cl-cookbook/getting-started.html)
+- [Arch Wiki - Common Lisp](https://wiki.archlinux.org/title/Common_Lisp)
+  - Great general resource, with detailed system management information.
 - [ASDF Manual](https://asdf.common-lisp.dev/asdf.pdf)
 - [ASDF "Best practices" document](https://gitlab.common-lisp.net/asdf/asdf/blob/master/doc/best_practices.md)
   - Slightly outdated, 2017.
@@ -378,6 +380,9 @@ the time being, particularly taking it as a default when sharing your projects.
 I do expect that if an acceptable solution to the versioning problem is found,
 it would take the form of a patch or a fork to Quicklisp, rather than a
 solution which wraps Quicklisp. But that's just my opinion.
+
+Also, check [Vend](https://github.com/fosskers/vend) for donwloading
+dependencies directly into your project repository.
 
 #### External Resources
 - [Qlot Homepage](https://qlot.tech/)
