@@ -1,8 +1,8 @@
-(defpackage :cl-yasboi/test
-  (:use :cl :fiveam)
-  (:import-from :cl-yasboi/lib :ayy :lmao)
-  (:import-from :cl-yasboi/cl-yasboi :ayy-lmao :main))
-(in-package :cl-yasboi/test)
+(defpackage #:cl-yasboi/test
+  (:use #:cl #:fiveam)
+  (:import-from #:cl-yasboi/lib #:ayy #:lmao)
+  (:import-from #:cl-yasboi/cl-yasboi #:ayy-lmao #:main))
+(in-package #:cl-yasboi/test)
 
 (def-suite cl-yasboi-test
    :description "Tests for cl-yasboi")

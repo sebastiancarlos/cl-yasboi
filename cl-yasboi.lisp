@@ -1,11 +1,11 @@
-(defpackage :cl-yasboi/cl-yasboi
-  (:nicknames :cl-yasboi) ; as this is the main package, I nickname it to the
-                          ; main system name.
-  (:use :cl)
-  (:import-from :cl-yasboi/lib :ayy :lmao)
-  (:import-from :alexandria :flatten)
-  (:export :ayy-lmao :main))
-(in-package :cl-yasboi/cl-yasboi)
+(defpackage #:cl-yasboi/cl-yasboi
+  (:nicknames #:cl-yasboi) ; as this is the main package, I nickname it to the
+                           ; main system name.
+  (:use #:cl)
+  (:import-from #:cl-yasboi/lib #:ayy #:lmao)
+  (:import-from #:alexandria #:flatten)
+  (:export #:ayy-lmao #:main))
+(in-package #:cl-yasboi/cl-yasboi)
 
 (defun ayy-lmao ()
   "Main function: Generates 'ayy' and 'lmao'"
