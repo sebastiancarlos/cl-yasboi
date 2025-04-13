@@ -234,7 +234,7 @@ In my opinion, Lisp is the answer to "What if the C preprocessor became a full
 language, but operating on the AST instead of plain text?"
 
 One downside of Common Lisp, which this boilerplate tries to mitigate, is the
-package management ecosystem - which is lacking when compared to `npm`, `gem`,
+package management tooling - which is lacking when compared to `npm`, `gem`,
 `cargo-pants`, etc. I also feel that this issue is rarely mentioned early
 enough on introductory material, which can catch beginners off guard.
 
@@ -333,9 +333,10 @@ dependency.
 
 Basically, Quicklisp keeps a list of all available software (a "dist"). A dist
 is like a snapshot, which is is updated monthly (although in practice, the
-latest update as of 2025-04 was 2024-10, accompanied by the message "Sorry this
-update took so long. My goal is to resume monthly releases", which didn't
-happen.)
+latest update as of 2025-04 was 2024-10, accompanied by the
+[message](http://blog.quicklisp.org/2024/10/october-2024-quicklisp-dist-update-now.html)
+"Sorry this update took so long. My goal is to resume monthly releases", which
+didn't happen.)
 
 At this point I want to mention that I'm in no way trying to attack the author
 and maintainer of Quicklisp, who has single-handedly kept this ship running for
