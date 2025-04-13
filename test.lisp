@@ -29,6 +29,6 @@
 
 (test test-main-function-output
   "Test the output of the main function entry point"
-  (is (string= (format nil "(ayy lmao)~%" (ayy-lmao))
+  (is (string= (format nil "(ayy lmao)~%")
                (with-output-to-string (*standard-output*) 
                  (main)))))
