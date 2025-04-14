@@ -46,11 +46,13 @@ $ ./cl-yasboi
 ## File Structure
 ```
 cl-yasboi/
-├── README.md       (<-- You are here!)
-├── cl-yasboi.asd   (Project definition file)
-├── cl-yasboi.lisp  (Main file)
-├── lib.lisp        (Library file)
-└── test.lisp       (Test file) 
+├── README.md            (<-- You are here!)
+├── cl-yasboi.asd        (Project definition file)
+├── cl-yasboi.lisp       (Main file)
+├── lib.lisp             (Library file)
+├── test.lisp            (Test file)
+├── Makefile             (Build and install commands)
+└── ./internal-scripts/  (Scripts used by Makefile)
 ```
 
 ## Rationale
