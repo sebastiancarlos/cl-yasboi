@@ -327,6 +327,11 @@ Now, let me put on my SQL hat for a second and bring together these concepts ðŸ‘
     dependencies both at the system level and at the package level. Mind =
     blown ðŸ¤¯
 
+Despite using `package-inferred-system` and thereby not needing to list any
+dependencies besides your main systems on the `.asd` file, I still recommend
+listing your *external* dependencies on the `.asd` file. That way, people can
+quickly see what you project depends on.
+
 ASDF has two notable missing features:
 - It doesn't fetch external dependencies.
 - It doesn't verify the version of dependencies.
