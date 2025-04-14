@@ -20,6 +20,7 @@ evaluating modern setups.
   - Sorry `Qlot`, maybe next year. `Quicklisp` is still too hot to ignore.
   - Uses external packages (the classics `alexandria` and `fiveam`) mostly for
     demonstration purposes.
+- Allows end-users to easily create an executable with `make`.
 - Tests with `fiveam`.
 - Detailed installation and usage instructions (see below).
 - Executable generation (with a predefined entrypoint).
@@ -27,22 +28,20 @@ evaluating modern setups.
 ## Quick Start
 - Install [Steel Bank Common Lisp (SBCL)][1] (check your system's package
   manager).
-- Install [Quicklisp][2] (See below for my custom instructions).
-- Clone this repository into a folder where ASDF, and thereby Quicklisp, can
-  find it (See below for instructions).
+- Clone this repository and move into it:
 ```bash
 git clone https://github.com/sebastiancarlos/cl-yasboi.git
+cd cl-yasboi
 ```
-- Run it from the SBCL REPL:
+- Build the executable and run it:
 ```bash
-sbcl
-* (ql:quickload :cl-yasboi)
-* (cl-yasboi:ayy-lmao) ; Run the main function
-("ayy lmao")
+$ make build
+Build complete. Executable cl-yasboi created.
+$ ./cl-yasboi
+(ayy lmao)
 ```
 
 [1]: https://www.sbcl.org/
-[2]: https://www.quicklisp.org/beta/
 
 ## File Structure
 ```
@@ -74,12 +73,13 @@ For any meaningful Common Lisp work, you need ASDF, which is Common Lisp's
 Assuming your implementation has ASDF bundled in (which is the case for most
 these days), you still need to obtain the project's external dependencies
 (namely, `alexandria` and `fiveam`). Unless you have them already, or you have
-a very power-user setup in place already, you need to install `Quicklisp`,
-which is the tool which fetches external dependencies (Yes, the fetching tool
-is separate from the main package management tool... I know).
+a very power-user setup in place already, you need to install
+[Quicklisp](https://www.quicklisp.org/beta/), which is the tool that fetches
+external dependencies (Yes, the fetching tool is separate from the main package
+management tool... *I know*).
 
 Assuming you have a Unix system (*I know this*), just follow the standard
-`Quicklisp` installation instructions, which I'll provide here:
+Quicklisp installation instructions, which I'll provide here:
 
 ```bash
 # Download the Quicklisp bootstrap file
@@ -89,14 +89,14 @@ curl -O https://beta.quicklisp.org/quicklisp.lisp
 sbcl --load quicklisp.lisp
 
 # Install it (You're now on the REPL, so the commands you type are those
-# following the '*' prompt symbol.)
+# following the '*' prompt symbol)..
 # Note: For this important step, I recommend installing Quicklisp on a path
 #       which respects XDG, unless you want to see your home directory implode.
 #       If no path is provided, it defaults to ~/quicklisp.
 * (quicklisp-quickstart:install :path "~/.local/share/quicklisp")
 ```
 
-There's one thing left to do, which is to add the `Quicklisp` initialization
+There's one thing left to do, which is to add the Quicklisp initialization
 function to your Lisp implementation's init file.
 
 At this point (now assuming you're using SBCL) I'll implore you once more to
@@ -133,7 +133,7 @@ Now, add the following to your SBCL init file:
 
 Congratulations. Almost done. ***I'm proud of you!***
 
-Now, you need to ensure that `ASDF` (and by extension, `Quicklisp`) can find
+Now, you need to ensure that ASDF (and by extension, Quicklisp) can find
 this project. For that, you need to move it somewhere such as the following
 default locations:
 
@@ -213,6 +213,34 @@ Also, it's not a cross-platform binary, which is outside of the scope of this
 guide (*read: I don't know how to do it*). If you're interested, you can look
 into [ECL](https://ecl.common-lisp.dev/) (Embeddable Common-Lisp) which
 promises way smaller binaries.
+
+## Automated Build and Installation (Makefile)
+
+While the REPL-based approach to make an executable are standard for Common
+Lisp development, we need to provide something more convenient for the final
+user.
+
+SO, this project includes a `Makefile` with the following commands:
+- `make build` generates the executable (Only requires `sbcl` and `curl`).
+- `make install` puts the generated executable in a standard `PATH` location.
+- `make` is short for `make install`.
+
+It generates the executable by installing and using a temporary Quicklisp
+environment in the project folder, which is cleaned up afterwards. This is
+required because we can't assume nor figure out how the user has ASDF and
+Quicklisp setup on their machine, if at all. 
+
+The entire logic can be found on the `.internal-scripts/` folder, which is
+called by the `Makefile`. But here's the gist:
+
+1.  Download the `quicklisp.lisp` bootstrap file using `curl`.
+2.  Install Quicklisp into a *temporary* local directory within the project:
+    `./.ql-tmp/`.
+3.  Use this Quicklisp instance to download the project's dependencies, compile
+    the project, and build the final executable (`cl-yasboi`).
+4.  Automatically cleans up afterwards (whether success or error).
+5.  `make install` copies the generated executable to a standard location
+    (default: `/usr/local/bin`), making it accessible system-wide.
 
 ## Brief Description of Software Used
 
@@ -336,7 +364,7 @@ is like a snapshot, which is is updated monthly (although in practice, the
 latest update as of 2025-04 was 2024-10, accompanied by the
 [message](http://blog.quicklisp.org/2024/10/october-2024-quicklisp-dist-update-now.html)
 "Sorry this update took so long. My goal is to resume monthly releases", which
-didn't happen.)
+didn't happen).
 
 At this point I want to mention that I'm in no way trying to attack the author
 and maintainer of Quicklisp, who has single-handedly kept this ship running for

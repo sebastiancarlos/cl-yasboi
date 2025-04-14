@@ -1,1 +1,13 @@
+# Common files
+.DS_Store
+.vscode/
+.idea/
+
+# The executable.
 cl-yasboi
+
+# Build artifacts.
+# - They should be cleaned by the script, but we're ignoring them here just in
+#   case.
+/.ql-tmp/
+quicklisp.lisp
