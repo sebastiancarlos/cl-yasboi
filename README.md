@@ -52,7 +52,7 @@ cl-yasboi/
 ├── lib.lisp             (Library file)
 ├── test.lisp            (Test file)
 ├── Makefile             (Build and install commands)
-└── ./internal-scripts/  (Scripts used by Makefile)
+└── .internal-scripts/   (Scripts used by Makefile)
 ```
 
 ## Rationale
