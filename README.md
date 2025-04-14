@@ -218,22 +218,22 @@ promises way smaller binaries.
 
 ## Automated Build and Installation (Makefile)
 
-While the REPL-based approach to make an executable are standard for Common
-Lisp development, we need to provide something more convenient for the final
-user.
+While the REPL-based approach to make an executable is standard for Common Lisp
+development, we need to provide something more convenient for the final user.
 
-SO, this project includes a `Makefile` with the following commands:
+So, this project includes a `Makefile` with the following commands:
 - `make build` generates the executable (Only requires `sbcl` and `curl`).
-- `make install` puts the generated executable in a standard `PATH` location.
+- `make install` puts the generated executable in a standard `PATH` location
+  (and generates the executable if not there already)
 - `make` is short for `make install`.
 
-It generates the executable by installing and using a temporary Quicklisp
+We generate the executable by installing and using a temporary Quicklisp
 environment in the project folder, which is cleaned up afterwards. This is
 required because we can't assume nor figure out how the user has ASDF and
-Quicklisp setup on their machine, if at all. 
+Quicklisp setup, if at all. 
 
-The entire logic can be found on the `.internal-scripts/` folder, which is
-called by the `Makefile`. But here's the gist:
+The full logic can be found on the `.internal-scripts/` folder, which is called
+by the `Makefile`. But here's the gist:
 
 1.  Download the `quicklisp.lisp` bootstrap file using `curl`.
 2.  Install Quicklisp into a *temporary* local directory within the project:
