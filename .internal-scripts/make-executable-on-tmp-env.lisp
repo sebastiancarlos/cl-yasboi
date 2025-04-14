@@ -6,5 +6,6 @@
 ; Ensure ASDF finds the project in the current directory
 (push *default-pathname-defaults* asdf:*central-registry*)
 
-(ql:quickload "cl-yasboi")
-(asdf:make "cl-yasboi")
+(let ((sys (uiop:getenv "MAIN_SYSTEM_NAME")))
+  (ql:quickload sys)
+  (asdf:make sys))

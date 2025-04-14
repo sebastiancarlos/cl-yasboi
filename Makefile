@@ -21,12 +21,11 @@ bindir := $(exec_prefix)/bin
 srcdir := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 
 # Project specific variables
-EXECUTABLE_NAME := cl-yasboi
+export LISP := sbcl
+export EXECUTABLE_NAME := cl-yasboi
+export MAIN_SYSTEM_NAME := cl-yasboi
 EXECUTABLE_PATH := $(srcdir)/$(EXECUTABLE_NAME)
 BUILD_SCRIPT := $(srcdir)/.internal-scripts/build-on-tmp-env.bash
-
-# Lisp implementation (allow override, e.g., make LISP=ccl)
-export LISP := sbcl
 
 # Terminal colors for output
 green := \\e[32m

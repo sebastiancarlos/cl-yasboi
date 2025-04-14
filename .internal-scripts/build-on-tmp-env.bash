@@ -13,14 +13,7 @@ QL_TMP_SETUP="${QL_TMP_DIR}/setup.lisp"
 QL_TMP_BOOTSTRAP="${PROJECT_ROOT}/quicklisp.lisp"
 QL_BOOTSTRAP_URL="https://beta.quicklisp.org/quicklisp.lisp"
 
-# Project specific
-EXECUTABLE_NAME="cl-yasboi"
 EXECUTABLE_PATH="${PROJECT_ROOT}/${EXECUTABLE_NAME}"
-
-# Lisp implementation command (can be overridden by environment variable)
-LISP_CMD="${LISP:-sbcl}"
-
-# SBCL flags for non-interactive execution
 LISP_FLAGS="--non-interactive --noprint"
 
 # Output formatting
@@ -51,10 +44,10 @@ trap cleanup EXIT
 
 # Check prerequisites
 echo -e "${blue}Checking prerequisites...${reset}"
-if ! command -v "$LISP_CMD" &> /dev/null; then
-    error "'$LISP_CMD' command not found. Please install SBCL or set the LISP environment variable."
+if ! command -v "$LISP" &> /dev/null; then
+    error "'$LISP' command not found. Please install SBCL or set the LISP environment variable."
 fi
-echo -e "    ${bold}${LISP_CMD}${reset} ${green}OK${reset}"
+echo -e "    ${bold}${LISP}${reset} ${green}OK${reset}"
 if ! command -v curl &> /dev/null; then
     error "'curl' command not found. Please install curl."
 fi
@@ -72,7 +65,7 @@ echo -e "${blue}Downloading Quicklisp bootstrap file${reset} ${green}DONE${reset
 
 # Install Quicklisp temporarily
 echo -e "${blue}Installing Quicklisp temporarily into ${green}.ql-tmp/${reset}${blue}...${reset}"
-if ! "$LISP_CMD" $LISP_FLAGS --load "${SCRIPT_DIR}/install-quicklisp-on-tmp-env.lisp" > /dev/null; then
+if ! "$LISP" $LISP_FLAGS --load "${SCRIPT_DIR}/install-quicklisp-on-tmp-env.lisp" > /dev/null; then
     error "Temporary Quicklisp installation failed."
 fi
 if [ ! -f "$QL_TMP_SETUP" ]; then
@@ -82,7 +75,7 @@ echo -e "${blue}Installing Quicklisp temporarily into ${green}.ql-tmp/${reset}..
 
 # Build the executable using the temporary Quicklisp env
 echo -e "${blue}Building executable ${green}${EXECUTABLE_NAME}${reset}${blue} using temporary environment...${reset}"
-if ! "$LISP_CMD" $LISP_FLAGS --load "${SCRIPT_DIR}/make-executable-on-tmp-env.lisp" > /dev/null; then
+if ! "$LISP" $LISP_FLAGS --load "${SCRIPT_DIR}/make-executable-on-tmp-env.lisp" > /dev/null; then
     error "Build process failed."
 fi
 if [ ! -f "$EXECUTABLE_PATH" ]; then
