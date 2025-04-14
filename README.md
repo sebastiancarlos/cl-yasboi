@@ -11,6 +11,23 @@ be a source of inspiration and a starting point for your own projects.
 This project is for both beginner and seasoned parentheses enthusiasts
 evaluating modern setups.
 
+## Table of Contents
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [File Structure](#file-structure)
+- [Rationale](#rationale)
+- [Running the Project From the Lisp REPL](#running-the-project-from-the-lisp-repl)
+- [Running the Test Suite](#running-the-test-suite)
+- [Generating Executables](#generating-executables)
+- [Automated Build and Installation (Makefile)](#automated-build-and-installation-makefile)
+- [Brief Description of Software Used](#brief-description-of-software-used)
+  - [Common Lisp](#common-lisp)
+  - [ASDF](#asdf)
+  - [Quicklisp](#quicklisp)
+  - [FiveAM](#fiveam)
+  - [Qlot (Honorable Mention)](#qlot-honorable-mention)
+- [Contributing](#contributing)
+
 ## Features
 - Uses `ASDF` for system(s) definition.
     - Defines both a main system and a test system.
