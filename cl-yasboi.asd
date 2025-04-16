@@ -32,7 +32,8 @@
   ; Output path for the executable
   :build-pathname "cl-yasboi"
   ; While everything loads from the main package, it's good practice to list
-  ; the external dependencies here too:
+  ; the external dependencies here too ("alexandria") besides the main package
+  ; ("cl-yasboi/cl-yasboi" in this case.)
   :depends-on ("alexandria"
                ; The ".lisp" suffix is implicit. ASDF will interpret the
                ; following as the "./cl-yasboi.lisp" file.
@@ -46,6 +47,8 @@
   :description "cl-yasboi's test suite"
   :depends-on ("fiveam")
   ; Show how to invoke FiveAM to run the test suite:
-  :perform (test-op (o s) 
-                    (uiop:symbol-call :fiveam '#:run! 
-                       (uiop:find-symbol* '#:cl-yasboi-test :cl-yasboi/test))))
+  :perform (test-op (o s)
+                    (unless 
+                      (uiop:symbol-call :fiveam '#:run! 
+                         (uiop:find-symbol* '#:cl-yasboi-test :cl-yasboi/test))
+                      (uiop:quit 1 nil))))

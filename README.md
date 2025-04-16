@@ -5,21 +5,39 @@
 </p>
 
 `cl-yasboi` (pronounced *Yas boi!*) is a modern (*so 2025*), minimalist,
-opinionated, and ***flamboyant*** Common Lisp starter project. It's designed to
-be a source of inspiration and a starting point for your own projects.
+opinionated, UNIX-based, and ***flamboyant*** Common Lisp starter project. It's
+designed to be a source of inspiration and a starting point for your own
+projects.
 
 This project is for both beginner and seasoned parentheses enthusiasts
 evaluating modern setups.
 
+## Quick Start
+
+- Install [Steel Bank Common Lisp (SBCL)][1] (check your system's package
+  manager).
+- Clone this repository and move into it:
+```bash
+git clone https://github.com/sebastiancarlos/cl-yasboi.git
+cd cl-yasboi
+```
+- Build the executable and run it:
+```bash
+$ make build
+Build complete. Executable cl-yasboi created.
+$ ./cl-yasboi
+(ayy lmao)
+```
+
 ## Table of Contents
 - [Features](#features)
-- [Quick Start](#quick-start)
 - [File Structure](#file-structure)
 - [Rationale](#rationale)
 - [Running the Project From the Lisp REPL](#running-the-project-from-the-lisp-repl)
 - [Running the Test Suite](#running-the-test-suite)
 - [Generating Executables](#generating-executables)
 - [Automated Build and Installation (Makefile)](#automated-build-and-installation-makefile)
+- [Automated Testing (Makefile)](#automated-testing-makefile)
 - [Brief Description of Software Used](#brief-description-of-software-used)
   - [Common Lisp](#common-lisp)
   - [ASDF](#asdf)
@@ -42,21 +60,6 @@ evaluating modern setups.
 - Detailed installation and usage instructions (see below).
 - Executable generation (with a predefined entrypoint).
 
-## Quick Start
-- Install [Steel Bank Common Lisp (SBCL)][1] (check your system's package
-  manager).
-- Clone this repository and move into it:
-```bash
-git clone https://github.com/sebastiancarlos/cl-yasboi.git
-cd cl-yasboi
-```
-- Build the executable and run it:
-```bash
-$ make build
-Build complete. Executable cl-yasboi created.
-$ ./cl-yasboi
-(ayy lmao)
-```
 
 [1]: https://www.sbcl.org/
 
@@ -102,6 +105,7 @@ Quicklisp installation instructions, which I'll provide here:
 
 ```bash
 # Download the Quicklisp bootstrap file
+# (Don't mind the "beta" in the URL, that's the official and current URL)
 curl -O https://beta.quicklisp.org/quicklisp.lisp
 
 # Load it onto your Lisp REPL
@@ -260,6 +264,36 @@ by the `Makefile`. But here's the gist:
 4.  Automatically cleans up afterwards (whether success or error).
 5.  `make install` copies the generated executable to a standard location
     (default: `/usr/local/bin`), making it accessible system-wide.
+
+## Automated Testing (Makefile)
+
+Similarly as the above automatic build, you can run the test suite
+utomatically by running `make test`.
+
+At this point, I would like to clarify a design decision: Our Makefile
+orchestration consists of a:
+- A minial `Makefile` for standard interface.
+- A series of `.bash` for system logic, abstracting some common operations.
+- A series of `.lisp` files to perform the actual work.
+
+An alternative which was tested and ultimately declined was to have a minimal
+`Makefile` but keep the rest of the logic on a single `.lisp` file. This had
+the advantages of language cohesion and ease of modification.
+
+However, it turned out that it increased the complexity for several reasons.
+The most notable of which is that to generate a build, the `lisp` process must
+exit, which removes the chance of any posterior cleanup unless starting a child
+Lisp process; And it is my understanding that Bash is better suited to bypass
+and better handle these platform-specific issues.
+
+For those concerned about the difficulty of modifying the automated
+orchestration logic, I would put forward two things:
+- What is here is fine as it is. Even if you were developing a library and had
+  little concern for an executable, I would argue that most libraries would
+  benefit of a secondary, minimal executable for discoverability.
+- And even if you do want to modify the orchestration in any way, I think that
+  you won't have much inconvenience despite the extra files and programming
+  languages involved.
 
 ## Brief Description of Software Used
 
