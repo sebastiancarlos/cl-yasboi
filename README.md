@@ -34,6 +34,8 @@ $ ./cl-yasboi
 - [File Structure](#file-structure)
 - [Rationale](#rationale)
 - [Running the Project From the Lisp REPL](#running-the-project-from-the-lisp-repl)
+  - [Setting up Quicklisp and ASDF](#setting-up-quicklisp-and-asdf)
+  - [Configuring ASDF to Find Your Project](#configuring-asdf-to-find-your-project)
 - [Running the Test Suite](#running-the-test-suite)
 - [Generating Executables](#generating-executables)
 - [Automated Build and Installation (Makefile)](#automated-build-and-installation-makefile)
@@ -47,7 +49,7 @@ $ ./cl-yasboi
 - [Contributing](#contributing)
 
 ## Features
-- Uses `ASDF` for system(s) definition.
+- Uses `ASDF` to define systems.
     - Defines both a main system and a test system.
     - Uses `ASDF`'s `:package-inferred-system` (the *modern* way) for less
       duplication of dependencies.
@@ -91,6 +93,8 @@ configured (*my man!*), you can skip to the end of this section.
 I assume you have a Common Lisp implementation installed (If not, go to your
 system's package manager and install one. I use Arch and SBCL, *btw*, so for me
 it's `pacman -S sbcl`).
+
+### Setting up Quicklisp and ASDF
 
 For any meaningful Common Lisp work, you need ASDF, which is Common Lisp's
 *"package" "management"* solution.
@@ -158,6 +162,8 @@ Now, add the following to your SBCL init file:
 ```
 
 Congratulations. Almost done. ***I'm proud of you!***
+
+### Configuring ASDF to Find Your Project
 
 Now, you need to ensure that ASDF (and by extension, Quicklisp) can find
 this project. For that, you need to move it somewhere such as the following
@@ -290,7 +296,7 @@ However, it turned out that it increased the complexity for several reasons:
   a nested child Lisp process (the sort of task which is more straightforward
   from Bash).
 - Also, it was my understanding that Bash is better suited to handle
-  platform-specific concerns succintly.
+  platform-specific concerns succinctly.
 
 For those ambivalent about the difficulty of modifying the automated
 orchestration logic due to the current setup, I would put forward two things:
