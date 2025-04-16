@@ -1,0 +1,88 @@
+name: Build Executable And Run Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allow manual triggering from the Actions tab
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash 
+
+jobs:
+  build-and-test:
+    name: Build Executable And Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare for APT Caching
+        # Reduce permissions to allow caching APT data.
+        run: |
+          sudo rm -r /var/cache/apt/archives /var/lib/apt/lists
+          sudo chmod a+w /var/cache/apt /var/lib/apt
+
+      - name: Save YEAR_MONTH For Cache Key
+        run: echo "MONTHLY_CACHE_KEY=$(date +'%Y-%m')" >> $GITHUB_ENV
+
+      - name: Cache APT packages and listing (Monthly)
+        id: apt-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            /var/cache/apt/archives
+            /var/lib/apt/lists/
+          key: apt-${{ env.MONTHLY_CACHE_KEY }}
+
+      - name: Run 'apt-get update' only if cache missed
+        if: steps.apt-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -y
+
+      - name: Installation Speedups
+        # - Skip installing pacakge docs {makes the man-db trigger much faster) 
+        run: |
+          sudo tee /etc/dpkg/dpkg.cfg.d/01_nodoc > /dev/null << 'EOF'
+          path-exclude /usr/share/doc/*
+          path-exclude /usr/share/man/*
+          path-exclude /usr/share/info/*
+          EOF
+
+      - name: Install Dependencies
+        # Also, prevent installing unnecessary packages
+        run: |
+          sudo apt-get install -y \
+            --no-install-recommends --no-install-suggests \
+            sbcl 
+
+      - name: Save SBCL_VERSION For Cache Key
+        run: echo "SBCL_VERSION=$(sbcl --version | cut -d' ' -f2)" >> $GITHUB_ENV
+
+      - name: Cache Quicklisp Temporary Directory and FASLs
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./.ql-tmp
+            ~/.cache/common-lisp
+          key: lisp-${{ env.MONTHLY_CACHE_KEY }}-sbcl-${{ env.SBCL_VERSION }}-asd-hash-${{ hashFiles('cl-yasboi.asd') }}
+
+      - name: Build Project
+        run: make build 
+
+      - name: Test Project
+        run: make test 
+
+      - name: Prepare APT For Caching (Part Two)
+        # Try giving everyone read access to the archives directory. This
+        # bypasses an issue with actions/cache not being able to cache
+        # protected systems.
+        if: steps.apt-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo chmod -R a+rw /var/cache/apt/archives
+          sudo chmod -R a+rw /var/lib/apt/lists

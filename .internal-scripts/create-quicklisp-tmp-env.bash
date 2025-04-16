@@ -19,6 +19,11 @@ error() {
 }
 
 cleanup() {
+    if [[ "${CI:-}" == "true" ]]; then
+        echo -e "Running in CI environment. Preserving ${green}.ql-tmp/${reset} for caching."
+        return
+    fi
+
     echo -e "${blue}Cleaning up temporary build environment...${reset}"
     echo -e "    Removing temporary Quicklisp directory ${green}.ql-tmp/${reset}"
     rm -f "$QL_TMP_BOOTSTRAP" &> /dev/null
@@ -42,21 +47,28 @@ fi
 echo -e "    ${bold}curl${reset} ${green}OK${reset}"
 echo -e "${blue}Checking prerequisites${reset} ${green}DONE${reset}"
 
-cd "$PROJECT_ROOT"
+create-quicklisp-tmp-env() {
+  if [[ -d "$QL_TMP_DIR" ]]; then
+      echo -e "${blue}Temporary Quicklisp directory ${green}.ql-tmp${reset} already exists. Assuming it's a restored cache on CI."
+      return 
+  fi
 
-# Download Quicklisp bootstrap file
-echo -e "${blue}Downloading Quicklisp bootstrap file...${reset}"
-if ! curl -fLo "${QL_TMP_BOOTSTRAP}" "${QL_BOOTSTRAP_URL}"; then
-    error "Failed to download Quicklisp bootstrap file from ${QL_BOOTSTRAP_URL}"
-fi
-echo -e "${blue}Downloading Quicklisp bootstrap file${reset} ${green}DONE${reset}"
+  # Download Quicklisp bootstrap file
+  cd "$PROJECT_ROOT"
+  echo -e "${blue}Downloading Quicklisp bootstrap file...${reset}"
+  if ! curl -fLo "${QL_TMP_BOOTSTRAP}" "${QL_BOOTSTRAP_URL}"; then
+      error "Failed to download Quicklisp bootstrap file from ${QL_BOOTSTRAP_URL}"
+  fi
+  echo -e "${blue}Downloading Quicklisp bootstrap file${reset} ${green}DONE${reset}"
 
-# Install Quicklisp temporarily
-echo -e "${blue}Installing Quicklisp temporarily into ${green}.ql-tmp/${reset}${blue}...${reset}"
-if ! "$LISP" $LISP_FLAGS --load "${SCRIPT_DIR}/install-quicklisp-on-tmp-env.lisp"; then
-    error "Temporary Quicklisp installation failed."
-fi
-if [ ! -f "$QL_TMP_SETUP" ]; then
-    error "Lisp script succeeded, but $QL_TMP_SETUP was not created."
-fi
-echo -e "${blue}Installing Quicklisp temporarily into ${green}.ql-tmp/${reset}${blue}... ${green}DONE${reset}"
+  # Install Quicklisp temporarily
+  echo -e "${blue}Installing Quicklisp temporarily into ${green}.ql-tmp/${reset}${blue}...${reset}"
+  if ! "$LISP" $LISP_FLAGS --load "${SCRIPT_DIR}/install-quicklisp-on-tmp-env.lisp"; then
+      error "Temporary Quicklisp installation failed."
+  fi
+  if [ ! -f "$QL_TMP_SETUP" ]; then
+      error "Lisp script succeeded, but $QL_TMP_SETUP was not created."
+  fi
+  echo -e "${blue}Installing Quicklisp temporarily into ${green}.ql-tmp/${reset}${blue}... ${green}DONE${reset}"
+}
+create-quicklisp-tmp-env
