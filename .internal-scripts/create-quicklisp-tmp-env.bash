@@ -30,8 +30,6 @@ cleanup() {
 # Register cleanup function to run on script exit (normal or error)
 trap cleanup EXIT
 
-# --- Main Logic ---
-
 # Check prerequisites
 echo -e "${blue}Checking prerequisites...${reset}"
 if ! command -v "$LISP" &> /dev/null; then

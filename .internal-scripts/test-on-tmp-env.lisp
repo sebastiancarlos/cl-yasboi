@@ -1,10 +1,9 @@
-;;; Loads a temporary local Quicklisp, loads the project system, and builds the executable.
-;;; Assumes it is run from the project root directory and './.ql-tmp/' was already set up.
-
+; Loads the temporary local Quicklisp. Assumes './.ql-tmp/' was set up.
 (load "./.ql-tmp/setup.lisp")
 
-; Ensure ASDF finds the project in the current directory
+; Ensure ASDF finds the project in the current directory.
 (push *default-pathname-defaults* asdf:*central-registry*)
 
+; loads the test system, and runst the test suite.
 (ql:quickload (uiop:getenv "TEST_SYSTEM_NAME"))
 (asdf:test-system (uiop:getenv "MAIN_SYSTEM_NAME"))

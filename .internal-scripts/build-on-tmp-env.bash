@@ -5,8 +5,6 @@ source .internal-scripts/create-quicklisp-tmp-env.bash
 
 EXECUTABLE_PATH="${PROJECT_ROOT}/${EXECUTABLE_NAME}"
 
-# --- Main Logic ---
-
 # Build the executable using the temporary Quicklisp env
 echo -e "${blue}Building executable ${green}${EXECUTABLE_NAME}${reset}${blue} using temporary environment...${reset}"
 if ! "$LISP" $LISP_FLAGS --load "${SCRIPT_DIR}/build-on-tmp-env.lisp"; then
