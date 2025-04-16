@@ -100,7 +100,7 @@ For any meaningful Common Lisp work, you need ASDF, which is Common Lisp's
 *"package" "management"* solution.
 
 Assuming your implementation has ASDF bundled in (which is the case for most
-these days), you still need to obtain the project's external dependencies
+these days), you still need to obtain this project's external dependencies
 (namely, `alexandria` and `fiveam`). Unless you have them already, or you have
 a very power-user setup in place already, you need to install
 [Quicklisp](https://www.quicklisp.org/beta/), which is the tool that fetches
