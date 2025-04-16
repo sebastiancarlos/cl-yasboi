@@ -88,7 +88,7 @@ As Common Lisp is a REPL-heavy language, I'll describe first how to run the
 project from the REPL.
 
 **Note:** If you already have a working Lisp + Quicklisp + ASDF setup
-configured (*my man!*), you can skip to the end of this section.
+configured (***my man!***), you can skip to the end of this section.
 
 I assume you have a Common Lisp implementation installed (If not, go to your
 system's package manager and install one. I use Arch and SBCL, *btw*, so for me
