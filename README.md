@@ -85,6 +85,9 @@ practices and tools.
 As Common Lisp is a REPL-heavy language, I'll describe first how to run the
 project from the REPL.
 
+**Note:** If you already have a working Lisp + Quicklisp + ASDF setup
+configured (*my man!*), you can skip to the end of this section.
+
 I assume you have a Common Lisp implementation installed (If not, go to your
 system's package manager and install one. I use Arch and SBCL, *btw*, so for me
 it's `pacman -S sbcl`).
@@ -267,32 +270,36 @@ by the `Makefile`. But here's the gist:
 
 ## Automated Testing (Makefile)
 
-Similarly as the above automatic build, you can run the test suite
-utomatically by running `make test`.
+Similar to the automated build above, you can also run the test suite
+automatically with `make test`.
 
-At this point, I would like to clarify a design decision: Our Makefile
-orchestration consists of a:
-- A minial `Makefile` for standard interface.
-- A series of `.bash` for system logic, abstracting some common operations.
-- A series of `.lisp` files to perform the actual work.
+At this point, I would like to clarify a design decision. Our Makefile
+orchestration consists of:
+- A minimal `Makefile` for standard interface,
+- a series of `.bash` scripts for system logic, abstracting some common
+  operations, and
+- a series of `.lisp` files to perform the actual Lisp work.
 
-An alternative which was tested and ultimately declined was to have a minimal
-`Makefile` but keep the rest of the logic on a single `.lisp` file. This had
-the advantages of language cohesion and ease of modification.
+An alternative which was tested and ultimately discarded was to keep the
+minimal `Makefile` but move the rest of the logic to a single `.lisp` file.
+This had the advantages of language cohesion and ease of modification.
 
-However, it turned out that it increased the complexity for several reasons.
-The most notable of which is that to generate a build, the `lisp` process must
-exit, which removes the chance of any posterior cleanup unless starting a child
-Lisp process; And it is my understanding that Bash is better suited to bypass
-and better handle these platform-specific issues.
+However, it turned out that it increased the complexity for several reasons:
+- The most notable of which is that to generate a build, the `lisp` process
+  must exit, which removes the chance of any subsequent cleanup unless starting
+  a nested child Lisp process (the sort of task which is more straightforward
+  from Bash).
+- Also, it was my understanding that Bash is better suited to handle
+  platform-specific concerns succintly.
 
-For those concerned about the difficulty of modifying the automated
-orchestration logic, I would put forward two things:
-- What is here is fine as it is. Even if you were developing a library and had
-  little concern for an executable, I would argue that most libraries would
-  benefit of a secondary, minimal executable for discoverability.
+For those ambivalent about the difficulty of modifying the automated
+orchestration logic due to the current setup, I would put forward two things:
+- I believe the current state is fine as it is for most projects. Even if you
+  were developing a library and had little concern for an executable, I would
+  argue that most libraries would benefit from having a secondary, minimal
+  executable for better discoverability.
 - And even if you do want to modify the orchestration in any way, I think that
-  you won't have much inconvenience despite the extra files and programming
+  you won't have much inconvenience despite the extra files and plurality of
   languages involved.
 
 ## Brief Description of Software Used
@@ -316,8 +323,8 @@ language, but operating on the AST instead of plain text?"
 
 One downside of Common Lisp, which this boilerplate tries to mitigate, is the
 package management tooling - which is lacking when compared to `npm`, `gem`,
-`cargo-pants`, etc. I also feel that this issue is rarely mentioned early
-enough on introductory material, which can catch beginners off guard.
+***`cargo-pants`***, etc. I also feel that this issue is rarely mentioned early
+enough in introductory material, which can catch beginners off guard.
 
 #### External Resources
 - [A Road to Common Lisp (article)](https://stevelosh.com/blog/2018/08/a-road-to-common-lisp)
@@ -349,13 +356,14 @@ enough on introductory material, which can catch beginners off guard.
 ### ASDF
 ASDF is Common Lisp's "system definition facility." It's a *de facto* standard, as it comes included with every implementation.
 
-Now, let's clarify some terminology. Common Lisp uses the word "package" for something a bit strange to people with modern sensibilities.
+Now, let's clarify some terminology. Common Lisp uses the word "package" for
+something a bit strange to people accustomed to other modern ecosystems.
 - A Common Lisp **"package"** is a collection of symbols. 
   - Think "namespaces" in other languages.
   - Also, a "package" provides some amount of encapsulation, as it can
     explicitly "export" some symbols only, and "import" some symbols from
     dependent packages.
-  - A package is not  necesarily tied to a single file. They are created with
+  - A package is not  necessarily tied to a single file. They are created with
     `defpackage` functions. (See later for more).
 - A **"system"** (as defined by ASDF) is a collection of source code and assets
   belonging to a Common Lisp project. 
@@ -429,7 +437,7 @@ and maintainer of Quicklisp, who has single-handedly kept this ship running for
 years to great benefit for the community! To some degree, the lack of frequent
 dist updates and strict version pinning is more a reflection of the ecosystem's
 size and the excellent backwards-compatibility of Common Lisp software; One can
-expect that as the ecosystem requirements grow, the required capital would
+expect that as the ecosystem requirements grow, the necessary resources would
 emerge to improve the tooling accordingly.
 
 Having said that, you might want to consider using "Ultralisp", which is an
