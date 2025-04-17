@@ -33,6 +33,7 @@ $ ./cl-yasboi
 ```
 
 ## Table of Contents
+
 - [Features](#features)
 - [File Structure](#file-structure)
 - [Rationale](#rationale)
@@ -52,6 +53,7 @@ $ ./cl-yasboi
 - [Contributing](#contributing)
 
 ## Features
+
 - Uses `ASDF` to define systems.
     - Defines both a main system and a test system.
     - Uses `ASDF`'s `:package-inferred-system` (the *modern* way) for less
@@ -69,6 +71,7 @@ $ ./cl-yasboi
 [1]: https://www.sbcl.org/
 
 ## File Structure
+
 ```
 cl-yasboi/
 ├── README.md            (<-- You are here!)
@@ -83,19 +86,20 @@ cl-yasboi/
 ## Rationale
 
 Introductory Common Lisp texts rarely delve into the details of setting up a
-project. This boilerplate aims to fill a bit of that gap, showcasing up-to-date
+project. This boilerplate aims to fill that gap, showcasing up-to-date
 practices and tools.
 
 ## Running the Project From the Lisp REPL
+
 As Common Lisp is a REPL-heavy language, I'll describe first how to run the
 project from the REPL.
 
 **Note:** If you already have a working Lisp + Quicklisp + ASDF setup
 configured (***my man!***), you can skip to the end of this section.
 
-I assume you have a Common Lisp implementation installed (If not, go to your
-system's package manager and install one. I use Arch and SBCL, *btw*, so for me
-it's `pacman -S sbcl`).
+I assume you have a Common Lisp implementation installed (If not, check your
+system's package manager and install one. I use Arch (*btw*) and SBCL, so for
+me it's `pacman -S sbcl`).
 
 ### Setting up Quicklisp and ASDF
 
@@ -103,15 +107,16 @@ For any meaningful Common Lisp work, you need ASDF, which is Common Lisp's
 *"package" "management"* solution.
 
 Assuming your implementation has ASDF bundled in (which is the case for most
-these days), you still need to obtain this project's external dependencies
+these days), you still need to get this project's external dependencies
 (namely, `alexandria` and `fiveam`). Unless you have them already, or you have
-a very power-user setup in place already, you need to install
+a very *power-user* setup in place already, you need to install
 [Quicklisp](https://www.quicklisp.org/beta/), which is the tool that fetches
 external dependencies (Yes, the fetching tool is separate from the main package
 management tool... *I know*).
 
 Assuming you have a Unix system (*I know this*), just follow the standard
-Quicklisp installation instructions, which I'll provide here:
+Quicklisp installation instructions, which I'll provide here with a
+modification for better XDG support:
 
 ```bash
 # Download the Quicklisp bootstrap file
@@ -129,18 +134,17 @@ sbcl --load quicklisp.lisp
 * (quicklisp-quickstart:install :path "~/.local/share/quicklisp")
 ```
 
-There's one thing left to do, which is to add the Quicklisp initialization
-function to your Lisp implementation's init file.
+There's one thing left to do: Adding the Quicklisp initialization function to
+your Lisp implementation's init file.
 
-At this point (now assuming you're using SBCL) I'll implore you once more to
-ensure that your SBCL's init file is *also* XDG-compliant. For that, I find
-that the cleanest way is to add an alias to your bash (or zsh, fish) shell like
-so:
+At this point (assuming you're using SBCL) I'll implore you once more to ensure
+your SBCL's init file is *also* XDG-compliant. For that, I find the cleanest
+way is to add an alias to your bash (or zsh, fish) shell:
 
 ```bash
 # ~/.bashrc
 
-alias sbcl="sbcl --load ~/.config/sbcl/init.lisp"
+alias sbcl="sbcl --userinit ~/.config/sbcl/init.lisp"
 ```
 
 Or, if you're a *true chad* who squeezes every ounce of performance out of your
@@ -169,7 +173,7 @@ Congratulations. Almost done. ***I'm proud of you!***
 ### Configuring ASDF to Find Your Project
 
 Now, you need to ensure that ASDF (and by extension, Quicklisp) can find
-this project. For that, you need to move it somewhere such as the following
+this project. For that, you need to move it somewhere like the following
 default locations:
 
 ```bash
@@ -179,15 +183,15 @@ default locations:
 
 I instead, a *scholar of the arts*, prefer to tell ASDF where to find my
 projects one by one. I do it by (you guessed it) *respecting XDG*. You can do
-so by creating a file such as the following (yes, the path *is* as long as a
+so by creating a file like the following (yes, the path **is** as long as a
 `systemd` config):
 
 ```lisp
 ; ~/.config/common-lisp/source-registry.conf.d/local-asdf-projects.conf
 
-(:directory "~/projects/cl-yasboi") ; add your projects one by one
+(:directory "~/projects/cl-yasboi") ; Add your projects one by one.
 
-; (:tree "~/lisp/") ; alternatively, designate a folder to be recursively
+; (:tree "~/lisp/") ; Alternatively, designate a folder to be recursively
                     ; searched for ASDF projects.
 ```
 
@@ -197,13 +201,14 @@ That's it! you're ready to run your Common Lisp REPL and start the project:
 sbcl
 * (ql:quickload :cl-yasboi) ; Load the project (and fetch the dependencies, if
                             ; needed)
-* (cl-yasboi:ayy-lmao) ; run its main function, "ayy-lmao"
+* (cl-yasboi:ayy-lmao) ; Run its main function, "ayy-lmao"
 ("ayy lmao")
 ```
 
 ***Success!***
 
 ## Running the Test Suite
+
 Assuming you have SBCL and Quicklisp installed from the previous sections, just
 do the following:
 
@@ -219,6 +224,7 @@ T
 The tests are passing! *Yas boi!*
 
 ## Generating Executables
+
 The system definition file (`cl-yasboi.asd`) contains the configuration needed
 for generating an executable.
 
@@ -233,7 +239,7 @@ sbcl
 * (asdf:make :cl-yasboi)
 ```
 
-Now, an executable `cl-yasboi` will be present in the project folder. You can
+Now, the executable `cl-yasboi` will be present in the project folder. You can
 run it with:
 
 ```bash
@@ -241,7 +247,7 @@ run it with:
 (ayy lmao)
 ```
 
-Yet, it's about 30MB (it includes the whole SBCL runtime). But hey, an Electron
+Yes, it's about 30MB (it includes the whole SBCL runtime). But hey, an Electron
 "hello world" app would still be over 160MB, so there's that! 😉
 
 Also, it's not a cross-platform binary, which is outside of the scope of this
@@ -254,94 +260,95 @@ promises way smaller binaries.
 While the REPL-based approach to make an executable is standard for Common Lisp
 development, we need to provide something more convenient for the final user.
 
-So, this project includes a `Makefile` with the following commands:
+So, this project includes a `Makefile` (the universal UNIX build interface)
+with the following commands:
 - `make build` generates the executable (Only requires `sbcl` and `curl`).
 - `make install` puts the generated executable in a standard `PATH` location
-  (and generates the executable if not there already)
-- `make` is short for `make install`.
+  (and generates the executable if not done already)
+- `make` is an alias for `make install`.
 
 We generate the executable by installing and using a temporary Quicklisp
-environment in the project folder, which is cleaned up afterwards. This is
-required because we can't assume nor figure out how the user has ASDF and
-Quicklisp setup, if at all. 
+environment in the project folder, which is cleaned up afterwards. We do this
+because we can't assume how the user has ASDF and Quicklisp setup, if at all. 
 
 The full logic can be found on the `.internal-scripts/` folder, which is called
 by the `Makefile`. But here's the gist:
 
 1.  Download the `quicklisp.lisp` bootstrap file using `curl`.
-2.  Install Quicklisp into a *temporary* local directory within the project:
-    `./.ql-tmp/`.
-3.  Use this Quicklisp instance to download the project's dependencies, compile
-    the project, and build the final executable (`cl-yasboi`).
+2.  Install Quicklisp into a local directory within the project: `./.ql-tmp/`.
+3.  Use that Quicklisp instance to download the project's dependencies, compile
+    the project, and build the final executable.
 4.  Automatically cleans up afterwards (whether success or error).
-5.  `make install` copies the generated executable to a standard location
-    (default: `/usr/local/bin`), making it accessible system-wide.
+5.  `make install` copies the executable to the standard PATH location
+    `/usr/local/bin` (configurable), making it accessible system-wide.
 
 ## Automated Testing (Makefile)
 
-Similar to the automated build above, you can also run the test suite
-automatically with `make test`.
+Similar to the automated build above, you can *also* run the test suite with
+`make test`.
 
-At this point, I would like to clarify a design decision. Our Makefile
+At this point, I would like to clarify a design decision. Our `Makefile`
 orchestration consists of:
 - A minimal `Makefile` for standard interface,
-- a series of `.bash` scripts for system logic, abstracting some common
-  operations, and
-- a series of `.lisp` files to perform the actual Lisp work.
+- a series of `.bash` scripts for system logic, abstracting common operations,
+  and
+- a series of `.lisp` files for the actual Lisp work.
 
-An alternative which was tested and ultimately discarded was to keep the
+An alternative, which was tested and ultimately discarded, was to keep the
 minimal `Makefile` but move the rest of the logic to a single `.lisp` file.
 This had the advantages of language cohesion and ease of modification.
 
-However, it turned out that it increased the complexity for several reasons:
-- The most notable of which is that to generate a build, the `lisp` process
-  must exit, which removes the chance of any subsequent cleanup unless starting
-  a nested child Lisp process (the sort of task which is more straightforward
-  from Bash).
-- Also, it was my understanding that Bash is better suited to handle
-  platform-specific concerns succinctly.
+However, it increased the complexity for several reasons:
+- To generate a build, the `lisp` process must exit, which removes the chance
+  of any subsequent cleanup unless starting a nested child Lisp process (the
+  sort of task which is more straightforward from Bash).
+- Similarly, it's my understanding that Bash is better suited to handle
+  platform-specific concerns like that succinctly.
 
-For those ambivalent about the difficulty of modifying the automated
-orchestration logic due to the current setup, I would put forward two things:
-- I believe the current state is fine as it is for most projects. Even if you
-  were developing a library and had little concern for an executable, I would
-  argue that most libraries would benefit from having a secondary, minimal
-  executable for better discoverability.
-- And even if you do want to modify the orchestration in any way, I think that
-  you won't have much inconvenience despite the extra files and plurality of
-  languages involved.
+For those worried about the difficulty of modifying the automated orchestration
+logic due to the current setup, I would point out that:
+- I believe the current state is suitable for most kinds of Lisp projects. Even
+  if you were developing a library and have little need for an executable, I
+  would argue that most libraries would benefit from having a secondary,
+  minimal executable for discoverability.
+- Even if you do want to change, add, or remove the orchestration steps, you
+  won't have much inconvenience despite the extra files and plurality of
+  languages.
 
 ## Brief Description of Software Used
 
 ### Common Lisp
+
 Despite common misconceptions, Common Lisp...
 - is multi-paradigm (not functional-only),
-- has a lot of baggage (not that minimalist), 
-- has several interesting language features not frequently mentioned (the
-  object system, the condition system, etc).
+- has a lot of baggage and batteries included (not that minimalist),
+- has several interesting, almost unique language features not frequently
+  mentioned (the object system, the condition system, etc).
 
 Note that [Scheme](https://www.gnu.org/software/guile/) and
 [Clojure](https://clojure.org/) are the two other popular Lisps out there. Some
-people claim that they are "Lisp, the good parts" to some degree, as they aim
-to reduce complexity (more consistent interfaces, use of LISP-1 instead of
-LISP-2, better package management, etc). However, Common Lisp wins for me in
-terms of features, interactive development, performance, and JVM-avoidance.
+people claim that they are *"Lisp, the good parts"*, as they aim to reduce
+complexity (more consistent interfaces, use of LISP-1 instead of LISP-2, better
+package management, etc). However, Common Lisp wins for me in terms of
+features, interactive development, performance, and JVM-avoidance.
 
 In my opinion, Lisp is the answer to "What if the C preprocessor became a full
 language, but operating on the AST instead of plain text?"
 
 One downside of Common Lisp, which this boilerplate tries to mitigate, is the
-package management tooling - which is lacking when compared to `npm`, `gem`,
+package management tooling - which is lacking compared to `npm`, `gem`,
 ***`cargo-pants`***, etc. I also feel that this issue is rarely mentioned early
 enough in introductory material, which can catch beginners off guard.
 
 #### External Resources
+
 - [A Road to Common Lisp (article)](https://stevelosh.com/blog/2018/08/a-road-to-common-lisp)
   - Great article with a roadmap to learn Common Lisp.
 - [Practical Common Lisp (book)](https://gigamonkeys.com/book/)
   - Likely the best book to learn Common Lisp, even if a bit dated (see article
     above for what to ignore).
-- [The Common Lisp Cookbook](https://github.com/LispCookbook/cl-cookbook)
+- [The Common Lisp Cookbook](https://lispcookbook.github.io/cl-cookbook/)
+  ([Source code](https://github.com/LispCookbook/cl-cookbook))
   - Great community resource.
 - [Common Lisp Spec](https://cl-community-spec.github.io/pages/index.html)
   - Modern rendering of the spec. With dark mode! 😎
@@ -349,7 +356,7 @@ enough in introductory material, which can catch beginners off guard.
   - [Beyond the ANSI Standard" manual section](http://www.sbcl.org/manual/index.html#Beyond-the-ANSI-Standard)
     - This section explains the differences between SBCL and the ANSI standard.
 - [Let Over Lambda](https://letoverlambda.com/)
-  - Great resource for learning macros in depth.
+  - Great resource for learning macros (including reader macros) in depth.
 - [Landscape of Lisp (2025)](https://churchofturing.github.io/landscapeoflisp.html)
   - A recent blog post on the state of Lisp.
 - [djhasking's blog](https://blog.djhaskin.com/)
@@ -358,50 +365,56 @@ enough in introductory material, which can catch beginners off guard.
   - Great overview of the current tools used by the community.
 - [Collections of quotes on why Lisp is great](https://lispers.org/) 
   - Evangelizing the masses 🙏
-- For learning more about the Object System of Common Lisp, check the books:
-  - "Object-Oriented Programming in Common Lisp: A Programmer's Guide to CLOS"
-  - "The Art of the Metaobject Protocol"
+- For learning more about the Object System of Common Lisp, check the
+  **books**:
+  - *"Object-Oriented Programming in Common Lisp: A Programmer's Guide to
+    CLOS"*
+  - *"The Art of the Metaobject Protocol"*
 
 ### ASDF
-ASDF is Common Lisp's "system definition facility." It's a *de facto* standard, as it comes included with every implementation.
+
+ASDF is Common Lisp's "system definition facility." It's the *de facto*
+standard, as it comes included with every implementation.
 
 Now, let's clarify some terminology. Common Lisp uses the word "package" for
-something a bit strange to people accustomed to other modern ecosystems.
+something a bit strange to people used to *modern* languages.
 - A Common Lisp **"package"** is a collection of symbols. 
   - Think "namespaces" in other languages.
   - Also, a "package" provides some amount of encapsulation, as it can
-    explicitly "export" some symbols only, and "import" some symbols from
+    explicitly "export" symbols from other packages, and "import" symbols from
     dependent packages.
   - A package is not  necessarily tied to a single file. They are created with
     `defpackage` functions. (See later for more).
 - A **"system"** (as defined by ASDF) is a collection of source code and assets
   belonging to a Common Lisp project. 
   - Think "modules" or "packages" in other languages.
-  - It's defined on the `.asd` file(s).
+  - A system is defined on an `.asd` file. Actually, a common practice is to
+    define all systems for your project on the same `.asd` file.
 - A **"project"** is a collection of systems. 
   - For example, the `cl-yasboi` project contains the `cl-yasboi` system and
     the `cl-yasboi/test` system (a common arrangement).
 
-Now, let me put on my SQL hat for a second and bring together these concepts 👷
-- **"project"** is **1-to-many** to **"system"**. (but usually two or three
-  systems per project).
+Now, let me put on my *SQL hat* for a second and bring together the
+***cardinality*** these concepts 👷
+- **"project"** is **1-to-many** to **"system"**. (but usually just two or
+  three systems per project).
 - **"system"** is **1-to-many** to **"package"**.
 - **"package"** is **many-to-many** to **"files"** (that is, no restrictions on
   how many files per package, or how many packages per file).
-  - But notably, we're using the modern `package-inferred-system` ASDF system
+  - But notably, we're using the modern `:package-inferred-system` ASDF system
     definition, which asks of us that we keep a **1-to-1** relationship between
     packages and files. This is a good practice, and closer to how other
     languages do it! Furthermore, it allows us to avoid duplicating the
-    dependencies both at the system level and at the package level. Mind =
-    blown 🤯
+    dependencies both at the system level and at the package level. *Mind =
+    blown* 🤯
 
-Despite using `package-inferred-system` and thereby not needing to list any
+Despite using `:package-inferred-system` and thereby not needing to list any
 dependencies besides your main systems on the `.asd` file, I still recommend
 listing your *external* dependencies on the `.asd` file. That way, people can
 quickly see what you project depends on.
 
 ASDF has two notable missing features:
-- It doesn't fetch external dependencies.
+- It doesn't download external dependencies.
 - It doesn't verify the version of dependencies.
   - This is particularly funny because the ASDF manual
     [suggests](https://asdf.common-lisp.dev/asdf.html#Version-identifier) that
@@ -410,6 +423,7 @@ ASDF has two notable missing features:
     lmao!*
 
 #### External Resources
+
 - [Common Lisp Cookbook – Defining Systems](https://lispcookbook.github.io/cl-cookbook/systems.html)
 - [Common Lisp Cookbook – Getting started](https://lispcookbook.github.io/cl-cookbook/getting-started.html)
 - [Arch Wiki - Common Lisp](https://wiki.archlinux.org/title/Common_Lisp)
@@ -420,44 +434,49 @@ ASDF has two notable missing features:
 - [UIOP Manual](https://asdf.common-lisp.dev/uiop.html)
 
 ### Quicklisp
-Quicklisp is the tool which fetches external dependencies for Common Lisp. It's
-tightly integrated with ASDF, and supports many Common Lisp implementations.
+
+Quicklisp is the tool which downloads external dependencies for Common Lisp.
+It's tightly integrated with ASDF, and supports many Common Lisp
+implementations.
 
 There are however two significant downsides:
 - It uses HTTP for fetching, which has some security implications.
-  - If this is a particular concern of yours, then you might need to evaluate
-    Quicklisp alternatives, use one of the Quicklisp forks which address this,
-    or build your custom workflow for fetching dependencies (using cutting-edge
-    technology like `curl`!)
+  - If this is a particular concern, you might need to evaluate Quicklisp
+    alternatives, use one of the Quicklisp forks which address this, or build
+    your custom workflow for fetching dependencies (using *cutting-edge
+    technologies* like `curl`!)
 - It, like ASDF, doesn't verify the version of dependencies.
 
 That's right, Quicklisp always fetches the *latest* version available of any
 dependency. 
 
-Basically, Quicklisp keeps a list of all available software (a "dist"). A dist
-is like a snapshot, which is is updated monthly (although in practice, the
+Basically, Quicklisp keeps a list of all available software (a **"dist"**). A
+dist is like a snapshot, which is is updated monthly (although in practice, the
 latest update as of 2025-04 was 2024-10, accompanied by the
 [message](http://blog.quicklisp.org/2024/10/october-2024-quicklisp-dist-update-now.html)
-"Sorry this update took so long. My goal is to resume monthly releases", which
-didn't happen).
+*"Sorry this update took so long. My goal is to resume monthly releases"*,
+which didn't happen).
 
 At this point I want to mention that I'm in no way trying to attack the author
 and maintainer of Quicklisp, who has single-handedly kept this ship running for
-years to great benefit for the community! To some degree, the lack of frequent
-dist updates and strict version pinning is more a reflection of the ecosystem's
-size and the excellent backwards-compatibility of Common Lisp software; One can
-expect that as the ecosystem requirements grow, the necessary resources would
-emerge to improve the tooling accordingly.
+years to great benefit of the community! To some degree, the lack of frequent
+updates and strict versioning is more a reflection of the ecosystem's size and
+the excellent backwards-compatibility of Common Lisp software; One can expect
+that as the ecosystem grows, the necessary resources will emerge to improve the
+tooling accordingly.
 
-Having said that, you might want to consider using "Ultralisp", which is an
-alternative Quicklisp "dist" which is updated very frequently.
+Having said that, you might want to consider using
+[Ultralisp](https://ultralisp.org/), an alternative Quicklisp "dist" which is
+updated very frequently.
 
 #### External Resources
+
 - [Quicklisp Homepage](https://www.quicklisp.org)
 - [Quicklisp Source Code](https://github.com/quicklisp/quicklisp-client)
 - [Ultralisp Homepage](https://ultralisp.org/)
 
 ### FiveAM
+
 FiveAM is a mature testing framework for Common Lisp.
 
 It has 3 levels of abstraction: `check` (like "assertion" in other langauges),
@@ -467,15 +486,17 @@ The most common check is `is`, which expects and expression to return `T`
 (true).
 
 #### External Resources
+
 - [Common Lisp Cookbook's FiveAM Guide](https://lispcookbook.github.io/cl-cookbook/testing.html)
 - [FiveAM docs](https://fiveam.common-lisp.dev/docs/index.html)
-  - Note that the FiveAM docs are written in a quasi-literate-programming
+  - Note that the FiveAM docs are written in a quasi literate-programming
     style, which makes it virtually unreadable for the casual user. So, I
     recommend the Cookbook's guide above.
 
 ### Qlot (Honorable Mention)
-For those requiring strict version control, Qlot is currently the most popular alternative to Quicklisp.
 
+For those wanting strict version control, Qlot is currently the most popular
+alternative to Quicklisp.
 
 However, at this time, at a personal quick glance, I don't find that Qlot
 provides a sufficiently smooth experience, particularly considering Quicklisp's
@@ -484,16 +505,17 @@ Quicklisp. Therefore, my actual recommendation is to keep using Quicklisp for
 the time being, particularly taking it as a default when sharing your projects.
 
 I do expect that if an acceptable solution to the versioning problem is found,
-it would take the form of a patch or a fork to Quicklisp, rather than a
-solution which wraps Quicklisp. But that's just my opinion.
+it will take the form of a patch or a fork to Quicklisp, rather than a solution
+which wraps Quicklisp. But that's just my opinion.
 
 Also, check [Vend](https://github.com/fosskers/vend) for donwloading
 dependencies directly into your project repository.
 
 #### External Resources
+
 - [Qlot Homepage](https://qlot.tech/)
 
 ## Contributing
 
-If you want to contribute to this project, please open an issue or a pull
-request!
+Contributions are welcome! If you want to contribute to this project, please
+open an issue or a pull request!
