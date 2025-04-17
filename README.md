@@ -12,6 +12,9 @@ projects.
 This project is for both beginner and seasoned parentheses enthusiasts
 evaluating modern setups.
 
+![cl-yasboi](https://github.com/sebastiancarlos/cl-yasboi/actions/workflows/build.yml/badge.svg)
+![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
 ## Quick Start
 
 - Install [Steel Bank Common Lisp (SBCL)][1] (check your system's package
