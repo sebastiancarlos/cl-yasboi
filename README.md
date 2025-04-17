@@ -13,7 +13,7 @@ This project is for both beginner and seasoned parentheses enthusiasts
 evaluating modern setups.
 
 ![cl-yasboi](https://github.com/sebastiancarlos/cl-yasboi/actions/workflows/build.yml/badge.svg)
-![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Quick Start
 
@@ -460,8 +460,8 @@ alternative Quicklisp "dist" which is updated very frequently.
 ### FiveAM
 FiveAM is a mature testing framework for Common Lisp.
 
-It has has 3 levels of abstraction: `check` (like "assertion" in other
-langauges), `test` and `suite`. It works as you would expect.
+It has 3 levels of abstraction: `check` (like "assertion" in other langauges),
+`test` and `suite`. It works as you would expect.
 
 The most common check is `is`, which expects and expression to return `T`
 (true).
