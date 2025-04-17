@@ -46,7 +46,7 @@ jobs:
           sudo apt-get update -y
 
       - name: Installation Speedups
-        # - Skip installing pacakge docs {makes the man-db trigger much faster) 
+        # - Skip installing package docs {makes the man-db trigger much faster) 
         run: |
           sudo tee /etc/dpkg/dpkg.cfg.d/01_nodoc > /dev/null << 'EOF'
           path-exclude /usr/share/doc/*

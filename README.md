@@ -72,7 +72,8 @@ cl-yasboi/
 ├── lib.lisp             (Library file)
 ├── test.lisp            (Test file)
 ├── Makefile             (Build and install commands)
-└── .internal-scripts/   (Scripts used by Makefile)
+├── .internal-scripts/   (Scripts used by Makefile)
+└── .github/workflows/   (Continuous Integration)
 ```
 
 ## Rationale
@@ -143,7 +144,8 @@ Or, if you're a *true chad* who squeezes every ounce of performance out of your
 Unix system, you might prefer something like this:
 
 ```bash
-alias sbcl="rlwrap sbcl --noinform --userinit ${XDG_CONFIG_HOME}/sbcl/init.lisp"
+alias sbcl="rlwrap sbcl --noinform \
+  --userinit ${XDG_CONFIG_HOME}/sbcl/init.lisp"
 ```
 
 Now, add the following to your SBCL init file:
@@ -345,7 +347,7 @@ enough in introductory material, which can catch beginners off guard.
 - [Common Lisp Spec](https://cl-community-spec.github.io/pages/index.html)
   - Modern rendering of the spec. With dark mode! 😎
 - [SBCL Manual](https://www.sbcl.org/manual/)
-  - [Beyond the ANSI Standard" manual section](http://www.sbcl.org/manual/index.html#Beyond-the-ANSI-Standard)
+  - ["Beyond the ANSI Standard" section](http://www.sbcl.org/manual/index.html#Beyond-the-ANSI-Standard)
     - This section explains the differences between SBCL and the ANSI standard.
 - [Let Over Lambda](https://letoverlambda.com/)
   - Great resource for learning macros (including reader macros) in depth.
@@ -357,6 +359,7 @@ enough in introductory material, which can catch beginners off guard.
   - Great overview of the current tools used by the community.
 - [Collections of quotes on why Lisp is great](https://lispers.org/) 
   - Evangelizing the masses 🙏
+- [Lisp subreddit](https://www.reddit.com/r/lisp/)
 - For learning more about the Object System of Common Lisp, check the
   **books**:
   - *"Object-Oriented Programming in Common Lisp: A Programmer's Guide to
