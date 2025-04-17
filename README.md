@@ -17,17 +17,9 @@ evaluating modern setups.
 
 ## Quick Start
 
-- Install [Steel Bank Common Lisp (SBCL)][1] (check your system's package
-  manager).
-- Clone this repository and move into it:
 ```bash
-git clone https://github.com/sebastiancarlos/cl-yasboi.git
-cd cl-yasboi
-```
-- Build the executable and run it:
-```bash
+$ git clone https://github.com/sebastiancarlos/cl-yasboi.git && cd cl-yasboi
 $ make build
-Build complete. Executable cl-yasboi created.
 $ ./cl-yasboi
 (ayy lmao)
 ```
