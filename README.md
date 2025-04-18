@@ -309,6 +309,44 @@ logic due to the current setup, I would point out that:
   won't have much inconvenience despite the extra files and plurality of
   languages.
 
+## Continuous Integration (CI)
+
+This project contains a "Github Actions" workflow to run the build and tests on
+the default Ubuntu runner. It runs in 20 seconds (or 10 on a good day!),
+which is quite alright, thanks to some `apt` caching and related trickery.
+
+Ideally, I would have a generic CI solution working across CI providers, CPU
+architectures, macOS, and Linux. However, that would require a way to get
+up-to-date SBCL binaries for all those targets. *Unfortunately*:
+- The [SBCL website](4) offers pre-compiled binaries of its *latest* version
+  only for x86 Linux. Other platforms are supported, but official binaries are
+  old or *non-existent*.
+- Even if I decided to build SBCL from source for CI, that would *still*
+  require a previously available Lisp binary on the system (*yo dawg*)! And
+  even getting *any old random* Lisp binary on a system can be tricky; This is
+  a known problem recognized by others such as ASDF's SBCL plugin (No, not
+  *our* ASDF, but the [language-agnostic version manager](3)) on this
+  ***tragically hilarious*** quote:
+
+>  "SBCL is compiled using itself, or any other Common Lisp. Since MacOS
+>  Ventura, the old builds don't run anymore due to `mmap` errors. To deal with
+>  that, I now use ECL for mac builds which is an embeddable Common Lisp that
+>  is widely available, though quite slow. [...] You're honestly probably
+>  better served loading SBCL from your local package manager."
+
+In short, while it's possible to have a generic and slightly faster CI solution
+(maybe by integrating Docker or Roswell). This would fall out of the scope of
+this minimal boilerplate without introducing more dependencies or *byzantine*
+compilation steps. Best I can do is a cached `apt-get install sbcl`.
+
+I hope for an improvement to SBCL's binary distribution situation in the
+future, so that this project can escape from Github CI's vendor lock-in, as I'm
+sure any bare-bones Hetzner CI would run circles around it. Hey, even a Lenovo
+laptop on your garage would!
+
+[3]: https://github.com/smashedtoatoms/asdf-sbcl
+[4]: https://www.sbcl.org/platform-table.html
+
 ## Brief Description of Software Used
 
 ### Common Lisp
