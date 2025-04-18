@@ -12,7 +12,7 @@ projects.
 This project is for both beginner and seasoned parentheses enthusiasts
 evaluating modern setups.
 
-![cl-yasboi](https://github.com/sebastiancarlos/cl-yasboi/actions/workflows/build.yml/badge.svg)
+![cl-yasboi](https://github.com/sebastiancarlos/cl-yasboi/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Quick Start
@@ -334,9 +334,9 @@ up-to-date SBCL binaries for all those targets. *Unfortunately*:
 >  is widely available, though quite slow. [...] You're honestly probably
 >  better served loading SBCL from your local package manager."
 
-In short, while it's possible to have a generic and slightly faster CI solution
-(maybe by integrating Docker or Roswell). This would fall out of the scope of
-this minimal boilerplate without introducing more dependencies or *byzantine*
+In short, while it's possible to have a generic and slightly faster CI
+solution, that would fall out of the scope of this minimal boilerplate without
+introducing more dependencies (maybe Docker or Roswell) or *byzantine*
 compilation steps. Best I can do is a cached `apt-get install sbcl`.
 
 I hope for an improvement to SBCL's binary distribution situation in the
