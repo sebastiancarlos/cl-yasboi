@@ -36,6 +36,7 @@ $ ./cl-yasboi
 - [Generating Executables](#generating-executables)
 - [Automated Build and Installation (Makefile)](#automated-build-and-installation-makefile)
 - [Automated Testing (Makefile)](#automated-testing-makefile)
+- [Continuous Integration (CI)](#continuous-integration-ci)
 - [Brief Description of Software Used](#brief-description-of-software-used)
   - [Common Lisp](#common-lisp)
   - [ASDF](#asdf)
@@ -58,9 +59,6 @@ $ ./cl-yasboi
 - Tests with `fiveam`.
 - Detailed installation and usage instructions (see below).
 - Executable generation (with a predefined entrypoint).
-
-
-[1]: https://www.sbcl.org/
 
 ## File Structure
 
@@ -312,21 +310,23 @@ logic due to the current setup, I would point out that:
 ## Continuous Integration (CI)
 
 This project contains a "Github Actions" workflow to run the build and tests on
-the default Ubuntu runner. It runs in 20 seconds (or 10 on a good day!),
-which is quite alright, thanks to some `apt` caching and related trickery.
+the default Ubuntu runner. It runs in 20 seconds (or 10 on a good day!), which
+is quite alright, thanks to some `apt` caching and related trickery.
 
 Ideally, I would have a generic CI solution working across CI providers, CPU
 architectures, macOS, and Linux. However, that would require a way to get
 up-to-date SBCL binaries for all those targets. *Unfortunately*:
-- The [SBCL website](4) offers pre-compiled binaries of its *latest* version
-  only for x86 Linux. Other platforms are supported, but official binaries are
-  old or *non-existent*.
+
+- The [SBCL website](https://www.sbcl.org/platform-table.html) offers
+  pre-compiled binaries of its *latest* version only for x86 Linux. Other
+  platforms are supported, but official binaries are old or *non-existent*.
 - Even if I decided to build SBCL from source for CI, that would *still*
   require a previously available Lisp binary on the system (*yo dawg*)! And
   even getting *any old random* Lisp binary on a system can be tricky; This is
   a known problem recognized by others such as ASDF's SBCL plugin (No, not
-  *our* ASDF, but the [language-agnostic version manager](3)) on this
-  ***tragically hilarious*** quote:
+  *our* ASDF, but the [language-agnostic version
+  manager](https://github.com/smashedtoatoms/asdf-sbcl)) on this ***tragically
+  hilarious*** quote:
 
 >  "SBCL is compiled using itself, or any other Common Lisp. Since MacOS
 >  Ventura, the old builds don't run anymore due to `mmap` errors. To deal with
@@ -343,9 +343,6 @@ I hope for an improvement to SBCL's binary distribution situation in the
 future, so that this project can escape from Github CI's vendor lock-in, as I'm
 sure any bare-bones Hetzner CI would run circles around it. Hey, even a Lenovo
 laptop on your garage would!
-
-[3]: https://github.com/smashedtoatoms/asdf-sbcl
-[4]: https://www.sbcl.org/platform-table.html
 
 ## Brief Description of Software Used
 
