@@ -142,8 +142,10 @@ Or, if you're a *true chad* who squeezes every ounce of performance out of your
 Unix system, you might prefer something like this:
 
 ```bash
-alias sbcl="rlwrap sbcl --noinform \
-  --userinit ${XDG_CONFIG_HOME}/sbcl/init.lisp"
+alias sbcl="rlwrap \
+  --history-filename ${XDG_DATA_HOME}/sbcl_history \
+  sbcl --noinform \
+    --userinit ${XDG_CONFIG_HOME}/sbcl/init.lisp"
 ```
 
 Now, add the following to your SBCL init file:
