@@ -37,6 +37,10 @@ $ ./cl-yasboi
 - [Automated Build and Installation (Makefile)](#automated-build-and-installation-makefile)
 - [Automated Testing (Makefile)](#automated-testing-makefile)
 - [Continuous Integration (CI)](#continuous-integration-ci)
+- [Setting Up an Interactive Editor Workflow](#setting-up-an-interactive-editor-workflow)
+  - [SLIME for Emacs](#slime-for-emacs)
+  - [Slimv for Vim/Neovim](#slimv-for-vimneovim)
+  - [Interactive Development Example With Slimv](#interactive-development-example-with-slimv)
 - [Brief Description of Software Used](#brief-description-of-software-used)
   - [Common Lisp](#common-lisp)
   - [ASDF](#asdf)
@@ -345,6 +349,117 @@ I hope for an improvement to SBCL's binary distribution situation in the
 future, so that this project can escape from Github CI's vendor lock-in, as I'm
 sure any bare-bones Hetzner CI would run circles around it. Hey, even a Lenovo
 laptop on your garage would!
+
+## Setting Up an Interactive Editor Workflow
+
+A cornerstone of productive Common Lisp development is the interactive editor
+workflow. Instead of the typical edit-compile-run cycle found in many
+languages, Lisp development often involves connecting your editor directly to a
+running Lisp process (an "image"). 
+
+This allows you to evaluate code snippets directly from your editor, inspect
+the state of your program, and debug interactively—significantly speeding up
+development.
+
+Let's put it like this: Most programming languages have editable source code
+and REPLs. Common Lisp is likely the best one to mix **both** so effectively
+(with the possible exception of Smalltalk). 
+
+Modern languages *cannot even get close* to this power level. It's true that
+interactive editing has seen recent focus, but the fact is that Lisp was
+designed from the start with this in mind, so it has facilities that will
+likely keep it at the front of the pack.
+
+Having said that, this workflow is not as strictly necessary as some zealots
+would make you believe. If you're new to Common Lisp, you're free to ignore
+this for now, or just get a light setup going. You can deep-dive into this
+later, when you feel more comfortable with the language. 
+
+One final warning though: For walking down this path, Emacs or Vim provide the
+best experience. If you don't know them, I do recommend learning one of them -
+I'll be waiting here for you. Having said that, I heard that [VSCode +
+Alive](https://lispcookbook.github.io/cl-cookbook/vscode-alive.html) is a
+reasonable alternative.
+
+### SLIME for Emacs
+
+The traditional and most feature-rich environment for this is [SLIME (Superior
+Lisp Interaction Mode for Emacs)](https://common-lisp.net/project/slime/) for
+the Emacs editor. SLIME communicates with a backend server called **SWANK**
+running within your Lisp process.
+
+Even if you don't use Emacs, the SWANK server is the basis for integration in
+Vim too.
+
+I'll focus the rest of this quick guide on Vim usage as a Vim user myself
+(also, any Emacs person reading this already has everything set up since the
+80s).
+
+### Slimv for Vim/Neovim
+
+The best Vim/Neovim plugin is [Slimv](https://github.com/kovisoft/slimv). To
+set it up, go check the [Official
+Tutorial](https://kovisoft.github.io/slimv-tutorial/tutorial.html) (Be warned
+that the tutorial mentions `asdf-install`, which has been replaced years ago by
+Quicklisp—everything else still stands).
+
+Here's my configuration for `slimv`:
+
+```vim
+" Custom command to start SWANK for slimv
+" NOTE: This assumes "neovim", and "plugged" as the plugin manager.
+let g:slimv_swank_cmd =
+    \ '!tmux new -d -s my-swank "sbcl ' .
+    \ '--userinit ${XDG_CONFIG_HOME}/sbcl/init.lisp ' .
+    \ '--load ${XDG_DATA_HOME}/nvim/plugged/slimv/slime/start-swank.lisp"'
+
+" Open the REPL on a vertical split
+let g:slimv_repl_split = 4
+
+" make sure paredit use the leader "," for all commands
+let g:paredit_leader = ","
+
+" don't put compiled files in your current directory
+let g:slimv_fasl_directory = "/tmp/"
+
+" rainbow parentheses for lisp (I disable it because it looks *terrible*)
+"let g:lisp_rainbow = 1
+```
+
+One quirk of this setup is that the command to start the SWANK server requires
+a terminal multiplexer (`tmux` in this case). This is required because `sbcl`
+has ***complete disregard*** for basic UNIX shell's job control features
+(basically, it rejects anything but full ownership of its terminal, so we make
+it believe that it's the *only process in the world* by using `tmux`).
+
+Keep in mind that both SLIME and Slimv incorporate **paredit**, a great tool
+for editing Lisp code (It's covered in the Slimv tutorial above). Of course,
+these editors come with great generic code-editing features; it's up to you to
+find your balance between paredit and the generic features.
+
+#### More resources:
+- [Lisp on Vim](https://susam.net/lisp-in-vim.htm)
+- Don't miss the online help on vim, which is the only source for some features
+  (`:help slimv`).
+
+### Interactive Development Example With Slimv
+
+Here's a quick demo of how to edit this very project using Slimv (It should be
+easily adapable to SLIME too).
+
+- Open the `lib.lisp` file. 
+- Press `,c` to connect to the Lisp process.
+- Type the following on the in-editor REPL to load the entire project:
+  ```lisp
+  CL-USER> (ql:quickload :cl-yasboi)
+  ```
+- Now, modify the `lmao` function to print `"lmaoooo"` instead of `"lmao"`.
+- Evaluate it with `,e`.
+- Now, back at the REPL, run the main project's function:
+  ```lisp
+  CL-USER> (cl-yasboi:ayy-lmao)
+  "ayy lmaoooo"
+  ```
 
 ## Brief Description of Software Used
 
